@@ -47,6 +47,13 @@ func checkPreConditions(ctx context.Context, rr *odhtypes.ReconciliationRequest)
 
 func initialize(_ context.Context, rr *odhtypes.ReconciliationRequest) error {
 	rr.Manifests = append(rr.Manifests, manifestsPath(rr.Release.Name))
+
+	// Add nemo-guardrails overlay if MCPGuardrailsMode is enabled
+	trustyai, ok := rr.Instance.(*componentApi.TrustyAI)
+	if ok && trustyai.Spec.MCPGuardrailsMode {
+		rr.Manifests = append(rr.Manifests, nemoGuardrailsManifestInfo())
+	}
+
 	return nil
 }
 

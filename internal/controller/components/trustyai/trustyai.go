@@ -45,6 +45,9 @@ func (s *componentHandler) NewCRObject(_ context.Context, _ client.Client, dsc *
 	// Copy eval section exactly as it exists in the DSC
 	spec.Eval = dsc.Spec.Components.TrustyAI.Eval
 
+	// Copy MCPGuardrailsMode
+	spec.MCPGuardrailsMode = dsc.Spec.Components.TrustyAI.MCPGuardrailsMode
+
 	// Ensure defaults are applied when strings are empty
 	if spec.Eval.LMEval.PermitCodeExecution == "" {
 		spec.Eval.LMEval.PermitCodeExecution = EvalPermissionDeny
